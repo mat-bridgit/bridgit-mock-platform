@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bridgit Mock Platform
+
+A self-contained mock non-profit dashboard built with Next.js, SQLite, and NextAuth. Used for testing and demonstrating Bridgit integrations without connecting to real third-party platforms.
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router, Turbopack)
+- **Database**: SQLite via better-sqlite3 + Drizzle ORM
+- **Auth**: NextAuth v5 with credentials provider (email/password, JWT sessions)
+- **UI**: Tailwind CSS, Radix UI, shadcn/ui, Lucide icons
+- **Runtime**: Node 22
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 22+
+- pnpm
+
+### Install & Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app runs on [http://localhost:3003](http://localhost:3003) and redirects to the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+SQLite stores data in `data.db` at the project root. Manage the schema with Drizzle:
 
-## Learn More
+```bash
+pnpm db:push       # Push schema changes to the database
+pnpm db:seed       # Seed with sample data
+pnpm db:generate   # Generate migration files
+pnpm db:studio     # Open Drizzle Studio
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+  app/
+    api/           # API routes (auth, config, profile, users)
+    dashboard/     # Dashboard pages
+      config/      # Platform configuration
+      donations/   # Donations view
+      donors/      # Donors view
+      fundraising/ # Fundraising view
+      profile/     # User profile
+      users/       # User management (admin)
+    login/         # Login page
+  auth.ts          # NextAuth configuration
+  db/              # Database connection, schema, seed
+  components/      # Shared UI components
+  hooks/           # Custom React hooks
+  lib/             # Utilities
+  types/           # TypeScript types
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Docker
 
-## Deploy on Vercel
+```bash
+docker build -t bridgit-mock-platform .
+docker run -p 3003:3003 bridgit-mock-platform
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The container auto-initializes the database and seeds it on first run via `entrypoint.sh`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Environment Variables
+
+| Variable | Default | Description |
+|---|---|---|
+| `DATABASE_URL` | `./data.db` | Path to the SQLite database file |
+| `AUTH_SECRET` | — | NextAuth secret (required in production) |
