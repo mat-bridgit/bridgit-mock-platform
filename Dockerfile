@@ -42,6 +42,7 @@ RUN chmod +x entrypoint.sh
 # Run as root so entrypoint can fix volume permissions, then drop to nextjs
 EXPOSE 3003
 ENV PORT=3003
+ENV HOSTNAME=0.0.0.0
 ENV DATABASE_URL=/app/data/data.db
 
 ENTRYPOINT ["./entrypoint.sh"]
