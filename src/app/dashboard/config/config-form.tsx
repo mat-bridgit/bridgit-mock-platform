@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -129,7 +128,7 @@ export function ConfigForm({ dashboardTitle, logoPath, primaryColor, mutedColor 
                     {currentLogo && (
                         <div className="flex items-center gap-3">
                             <span className="text-muted-foreground text-sm">Current logo:</span>
-                            <Image
+                            <img
                                 src={currentLogo}
                                 alt="Current logo"
                                 width={48}

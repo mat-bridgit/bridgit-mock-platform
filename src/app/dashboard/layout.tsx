@@ -15,7 +15,6 @@ import { db } from "@/db";
 import { config } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { LogOut } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -60,7 +59,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
                     <div className="px-2 py-2">
                         <div className="flex flex-row items-center gap-2">
                             {logoPath && (
-                                <Image
+                                <img
                                     alt="Logo"
                                     width={24}
                                     height={24}
