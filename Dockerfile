@@ -39,8 +39,7 @@ RUN mkdir -p /app/public/uploads && chown nextjs:nodejs /app/public/uploads
 COPY --chown=nextjs:nodejs entrypoint.sh ./entrypoint.sh
 RUN chmod +x entrypoint.sh
 
-USER nextjs
-
+# Run as root so entrypoint can fix volume permissions, then drop to nextjs
 EXPOSE 3003
 ENV PORT=3003
 ENV DATABASE_URL=/app/data/data.db
